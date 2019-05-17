@@ -1,31 +1,35 @@
-
-import pickle
+#!/usr/bin/env/ python3
+# -*- coding: utf-8 -*-
+"""
+    :Author: yuangezhizao
+    :Time: 2019/5/17 0017 19:16
+    :Site: https://www.yuangezhizao.cn
+    :Copyright: © 2019 yuangezhizao <root@yuangezhizao.cn>
+"""
 import os
+import time
 
-import cv2
 import numpy as np
 import tensorflow as tf
 from scipy import misc
 
-import face_net.src.facenet as facenet
+import face_comm
 import face_net.src.align.detect_face
-
-import  face_comm
-
-import time
+import face_net.src.facenet as facenet
 
 np.set_printoptions(suppress=True)
 gpu_memory_fraction = 0.3
-facenet_model_checkpoint = os.path.abspath(face_comm.get_conf('facedetect','model'))
+facenet_model_checkpoint = os.path.abspath(face_comm.get_conf('facedetect', 'model'))
 
-class Encoder:  
+
+class Encoder:
     def __init__(self):
-        self.dectection= Detection()
+        self.dectection = Detection()
         self.sess = tf.Session()
-        start=time.time()
+        start = time.time()
         with self.sess.as_default():
             facenet.load_model(facenet_model_checkpoint)
-        print 'Model loading finised,cost: %ds'%((time.time()-start))
+        print('Model loading finised,cost: %ds' % ((time.time() - start)))
 
     def generate_embedding(self, image):
         # Get input and output tensors
@@ -33,11 +37,12 @@ class Encoder:
         embeddings = tf.get_default_graph().get_tensor_by_name("embeddings:0")
         phase_train_placeholder = tf.get_default_graph().get_tensor_by_name("phase_train:0")
 
-        face=self.dectection.find_faces(image)
+        face = self.dectection.find_faces(image)
         prewhiten_face = facenet.prewhiten(face.image)
         # Run forward pass to calculate embeddings
         feed_dict = {images_placeholder: [prewhiten_face], phase_train_placeholder: False}
         return self.sess.run(embeddings, feed_dict=feed_dict)[0]
+
 
 class Face:
     def __init__(self):
@@ -46,6 +51,7 @@ class Face:
         self.image = None
         self.container_image = None
         self.embedding = None
+
 
 class Detection:
     # face detection parameters
@@ -69,8 +75,8 @@ class Detection:
         faces = []
         image = misc.imread(os.path.expanduser(image), mode='RGB')
         bounding_boxes, _ = face_net.src.align.detect_face.detect_face(image, self.minsize,
-                                                          self.pnet, self.rnet, self.onet,
-                                                          self.threshold, self.factor)
+                                                                       self.pnet, self.rnet, self.onet,
+                                                                       self.threshold, self.factor)
         for bb in bounding_boxes:
             face = Face()
             face.container_image = image
@@ -87,7 +93,7 @@ class Detection:
         return faces[0]
 
 
-if __name__=='__main__':
-    pic='/Users/chenlinzhong/Downloads/noraml.png'
+if __name__ == '__main__':
+    pic = '/Users/chenlinzhong/Downloads/noraml.png'
     encoder = Encoder()
-    print encoder.generate_embedding(pic)
+    print(encoder.generate_embedding(pic))
