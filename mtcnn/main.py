@@ -10,7 +10,7 @@ import cv2
 import mxnet as mx
 import numpy as np
 
-from .mtcnn_detector import MtcnnDetector
+from mtcnn.mtcnn_detector import MtcnnDetector
 
 detector = MtcnnDetector(model_folder='model', ctx=mx.cpu(0), num_worker=4, accurate_landmark=False)
 
