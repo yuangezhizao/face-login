@@ -1,49 +1,53 @@
-# coding: utf-8
-import mxnet as mx
-from mtcnn_detector import MtcnnDetector
+#!/usr/bin/env/ python3
+# -*- coding: utf-8 -*-
+"""
+    :Author: yuangezhizao
+    :Time: 2019/6/4 0004 21:04
+    :Site: https://www.yuangezhizao.cn
+    :Copyright: © 2019 yuangezhizao <root@yuangezhizao.cn>
+"""
 import cv2
-import os
-import time
+import mxnet as mx
+import numpy as np
 
-import  numpy as np
+from .mtcnn_detector import MtcnnDetector
 
-detector = MtcnnDetector(model_folder='model', ctx=mx.cpu(0), num_worker = 4 , accurate_landmark = False)
+detector = MtcnnDetector(model_folder='model', ctx=mx.cpu(0), num_worker=4, accurate_landmark=False)
 
+img = cv2.imread('D:\\yuangezhizao\\Documents\\PycharmProjects\\face-login\\web\\images\\meizi2.jpeg')
 
-img = cv2.imread('/Users/chenlinzhong/Downloads/test2.png')
-
-#run detector   
+# run detector
 results = detector.detect_face(img)
-print results
+print(results)
 if results is not None:
 
     total_boxes = results[0]
-    print total_boxes
+    print(total_boxes)
     points = results[1]
-    print points
+    print(points)
 
     # extract aligned face chips
     chips = detector.extract_image_chips(img, points, 144, 0.8)
-    #for i, chip in enumerate(chips):
-        #cv2.imshow('chip_'+str(i), chip)
-        #cv2.imwrite('chip_'+str(i)+'.png', chip)
+    # for i, chip in enumerate(chips):
+    # cv2.imshow('chip_'+str(i), chip)
+    # cv2.imwrite('chip_'+str(i)+'.png', chip)
 
     draw = img.copy()
     for b in total_boxes:
         cv2.rectangle(draw, (int(b[0]), int(b[1])), (int(b[2]), int(b[3])), (255, 255, 255))
 
     # 人脸对齐点
-    faceKeyPoint=[]
+    faceKeyPoint = []
     for p in points:
         for i in range(5):
-            faceKeyPoint.append([p[i],p[i+5]])
+            faceKeyPoint.append([p[i], p[i + 5]])
             cv2.circle(draw, (p[i], p[i + 5]), 1, (0, 0, 255), 2)
-    eye1  = faceKeyPoint[0]
-    eye2  = faceKeyPoint[1]
+    eye1 = faceKeyPoint[0]
+    eye2 = faceKeyPoint[1]
     noise = faceKeyPoint[2]
 
-    source_point=np.array(
-     [eye1,eye2,noise],dtype=np.float32
+    source_point = np.array(
+        [eye1, eye2, noise], dtype=np.float32
     )
     dst_point = np.array(
         [[56, 98],
@@ -53,14 +57,11 @@ if results is not None:
 
     tranform = cv2.getAffineTransform(source_point, dst_point)
 
-
-
     img_new = cv2.warpAffine(img, tranform, (191, 233))
 
     cv2.imshow('test', img_new)
 
     cv2.waitKey(0)
-
 
 # --------------
 # test on camera
