@@ -44,7 +44,7 @@ sk.bind(ip_port)
 sk.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
 sk.listen(5)
 
-print('server listening to ' + host + ':' + str(port) + '....')
+print('Server listening to ' + host + ':' + str(port) + '……')
 while True:
     try:
         conn, addr = sk.accept()
