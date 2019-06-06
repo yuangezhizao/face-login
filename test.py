@@ -2,13 +2,15 @@
 # -*- coding: utf-8 -*-
 """
     :Author: yuangezhizao
-    :Time: 2019/5/17 0017 19:48
+    :Time: 2019/6/6 0006 14:51
     :Site: https://www.yuangezhizao.cn
     :Copyright: © 2019 yuangezhizao <root@yuangezhizao.cn>
 """
 import face_handler
 
-retData = face_handler.detect_face('/Users/chenlinzhong/Documents/v_project/t_faceproject/web/images/meizi2.jpeg')
+pic = 'D:\\yuangezhizao\\Documents\\PycharmProjects\\face-login\\web\\images\\meizi2.jpeg'
+
+retData = face_handler.detect_face(pic)
 
 
 def trans_string(retData):
