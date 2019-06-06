@@ -29,13 +29,13 @@ class Encoder:
         start = time.time()
         with self.sess.as_default():
             facenet.load_model(facenet_model_checkpoint)
-        print('Model loading finised,cost: %ds' % ((time.time() - start)))
+        print('Model loading finised，cost：%ds' % ((time.time() - start)))
 
     def generate_embedding(self, image):
         # Get input and output tensors
-        images_placeholder = tf.get_default_graph().get_tensor_by_name("input:0")
-        embeddings = tf.get_default_graph().get_tensor_by_name("embeddings:0")
-        phase_train_placeholder = tf.get_default_graph().get_tensor_by_name("phase_train:0")
+        images_placeholder = tf.get_default_graph().get_tensor_by_name('input:0')
+        embeddings = tf.get_default_graph().get_tensor_by_name('embeddings:0')
+        phase_train_placeholder = tf.get_default_graph().get_tensor_by_name('phase_train:0')
 
         face = self.dectection.find_faces(image)
         prewhiten_face = facenet.prewhiten(face.image)
@@ -94,6 +94,6 @@ class Detection:
 
 
 if __name__ == '__main__':
-    pic = '/Users/chenlinzhong/Downloads/noraml.png'
+    pic = 'D:\\yuangezhizao\\Documents\\PycharmProjects\\face-login\\web\\images\\meizi2.jpeg'
     encoder = Encoder()
     print(encoder.generate_embedding(pic))
