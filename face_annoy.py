@@ -26,7 +26,7 @@ class face_annoy:
         if os.path.isfile(self.annoy_index_path):
             self.annoy.load(self.annoy_index_path)
 
-    # 从lmdb文件中建立annoy索引
+    # 从 lmdb 文件中建立 annoy 索引
     def create_index_from_lmdb(self):
         # 遍历
         lmdb_file = self.lmdb_file
@@ -36,7 +36,7 @@ class face_annoy:
             annoy = AnnoyIndex(self.f)
             for key, value in wfp.cursor():
                 key = int(key)
-                value = face_comm.str_to_embed(value)
+                value = face_comm.str_to_embed(value.decode())
                 annoy.add_item(key, value)
 
             annoy.build(self.num_trees)
