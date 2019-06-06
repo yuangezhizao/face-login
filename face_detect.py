@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
     :Author: yuangezhizao
-    :Time: 2019/5/17 0017 19:15
+    :Time: 2019/6/4 0004 20:57
     :Site: https://www.yuangezhizao.cn
     :Copyright: © 2019 yuangezhizao <root@yuangezhizao.cn>
 """
@@ -29,7 +29,7 @@ class Detect:
         if results is not None:
             # box 框
             boxes = results[0]
-            # 人脸 5 个关键点
+            # 人脸五个关键点
             points = results[1]
             for i in results[0]:
                 faceKeyPoint = []
@@ -37,11 +37,11 @@ class Detect:
                     for i in range(5):
                         faceKeyPoint.append([p[i], p[i + 5]])
                 key_points.append(faceKeyPoint)
-        return {"boxes": boxes, "face_key_point": key_points}
+        return {'boxes': boxes, 'face_key_point': key_points}
 
 
 if __name__ == '__main__':
-    pic = '/Users/chenlinzhong/Downloads/temp.jpeg'
+    pic = 'D:\\yuangezhizao\\Documents\\PycharmProjects\\face-login\\web\\images\\meizi2.jpeg'
     detect = Detect()
     result = detect.detect_face(pic)
     print(result)
