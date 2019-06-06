@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
     :Author: yuangezhizao
-    :Time: 2019/5/17 0017 19:15
+    :Time: 2019/6/4 0004 20:56
     :Site: https://www.yuangezhizao.cn
     :Copyright: © 2019 yuangezhizao <root@yuangezhizao.cn>
 """
@@ -22,7 +22,7 @@ class Alignment:
         img = cv2.imread(opic)
         faceKeyPoint = faceKeyPoint[0]
 
-        # 根据两个鼻子和眼睛进行3点对齐
+        # 根据两个鼻子和眼睛进行三点对齐
         eye1 = faceKeyPoint[0]
         eye2 = faceKeyPoint[1]
         noise = faceKeyPoint[2]
@@ -53,11 +53,11 @@ class Alignment:
 
 
 if __name__ == '__main__':
-    pic = '/Users/chenlinzhong/Downloads/laji.png'
+    pic = 'D:\\yuangezhizao\\Documents\\PycharmProjects\\face-login\\web\\images\\meizi2.jpeg'
     detect = face_detect.Detect()
     result = detect.detect_face(pic)
     if len(result['boxes']):
         align = Alignment()
-        print('align face: ' + align.align_face(pic, result['face_key_point']))
+        print('Face aligned：' + align.align_face(pic, result['face_key_point']))
     else:
-        print('not found face')
+        print('Face is not found')
