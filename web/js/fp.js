@@ -1,13 +1,3 @@
-
-
-
-//初始化背景
-var options={
-    'canvasContainerID':"canvas-container"
-}
-var bg=new LogBackground(options)
-
-
 var user_image_file=''
 
 
