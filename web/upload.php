@@ -1,6 +1,6 @@
 <?php
 
-ini_set('display_errors', 'on');
+ini_set('display_errors', 'off');
 
 function save($image_base64, $image_path)
 {
