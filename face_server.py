@@ -33,6 +33,7 @@ def handle_request(data):
     elif arrData['cmd'] == 'detect':
         retData['data'] = face_handler.detect_face(arrData['image_path'])
         retData['data']['boxes'] = retData['data']['boxes'].tolist()
+    print(retData)
     return face_comm.trans_string(retData)
 
 
