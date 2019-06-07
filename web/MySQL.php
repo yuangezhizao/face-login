@@ -1,37 +1,38 @@
 <?php
-class DqMysql
+
+class MySQL
 {
-    static $objMysql = null;
+    static $MySQL_Object = null;
 
     static public function getDbInstance()
     {
-        static $time=0;
+        static $time = 0;
 
-        if(time() - $time >10){
-            self::$objMysql = null;
-        }  
+        if (time() - $time > 10) {
+            self::$MySQL_Object = null;
+        }
 
-        if(empty($time) || empty(self::$objMysql)) {
+        if (empty($time) || empty(self::$MySQL_Object)) {
 
-            $dbms = 'mysql';     //数据库类型
-            $host = '127.0.0.1'; //数据库主机名
+            $dbms = 'mysql';
+            $host = '10.0.2.11';
             $port = '3306';
-            $dbName = 'face';    //使用的数据库
-            $user = '11';      //数据库连接用户名
-            $pass = '33';          //对应的密码
+            $dbName = 'face';
+            $user = '<rm>';
+            $pass = '<rm>';
             $dsn = "$dbms:host=$host;dbname=$dbName;port=$port;";
             try {
                 $dbh = new PDO($dsn, $user, $pass,
                     array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_TIMEOUT => 3)
-                ); //初始化一个PDO对象
-                self::$objMysql = $dbh;
+                );
+                self::$MySQL_Object = $dbh;
                 $time = time();
                 return $dbh;
             } catch (PDOException $e) {
                 return null;
             }
         }
-        return self::$objMysql;
+        return self::$MySQL_Object;
     }
 
     public static function insertData($table, $arrDatas)
@@ -50,9 +51,9 @@ class DqMysql
         $str = trim($str, ',');
         $sql .= $str;
 
-        if(self::getDbInstance()->query($sql)){
+        if (self::getDbInstance()->query($sql)) {
             return self::getDbInstance()->lastInsertId();
-        }else{
+        } else {
             return false;
         }
     }
@@ -79,7 +80,7 @@ class DqMysql
         $sql .= ' order by id desc ';
         $sql .= ' limit ' . $start . ',' . $size;
         $obj = self::getDbInstance();
-        if(empty($obj)){
+        if (empty($obj)) {
             return array();
         }
         $statement = $obj->prepare($sql);
@@ -96,7 +97,7 @@ class DqMysql
         }
         $sql .= ' order by id desc ';
         $obj = self::getDbInstance();
-        if(empty($obj)){
+        if (empty($obj)) {
             return 0;
         }
         $statement = $obj->prepare($sql);
@@ -105,10 +106,9 @@ class DqMysql
         return isset($arr[0]['total']) ? $arr[0]['total'] : 0;
     }
 
-    public static function delete($table,$id){
-        $sql = 'delete from '.$table.' where id='.$id;
+    public static function delete($table, $id)
+    {
+        $sql = 'delete from ' . $table . ' where id=' . $id;
         return self::getDbInstance()->query($sql);
     }
 }
-
-
