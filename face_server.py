@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
     :Author: yuangezhizao
-    :Time: 2019/5/17 0017 19:16
+    :Time: 2019/6/7 0007 12:05
     :Site: https://www.yuangezhizao.cn
     :Copyright: © 2019 yuangezhizao <root@yuangezhizao.cn>
 """
@@ -18,19 +18,20 @@ def handle_request(data):
     arrData = demjson.decode(data)
     retData = {'code': 0}
 
-    # 查找
+    # 搜索
     if arrData['cmd'] == 'search':
-        retData['data'] = face_handler.query_face(arrData['pic'])
+        retData['data'] = face_handler.query_face(arrData['image_path'])
 
-    # 添加
-    if arrData['cmd'] == 'add_index':
-        if face_handler.add_face_index(arrData['id'], arrData['pic']):
+    # 注册
+    elif arrData['cmd'] == 'register':
+        if face_handler.add_face_index(arrData['id'], arrData['image_path']):
             retData['data'] = {'succ': 1}
         else:
             retData['data'] = {'succ': 0}
+
     # 检测
-    if arrData['cmd'] == 'face_detect':
-        retData['data'] = face_handler.detect_face(arrData['pic'])
+    elif arrData['cmd'] == 'detect':
+        retData['data'] = face_handler.detect_face(arrData['image_path'])
         retData['data']['boxes'] = retData['data']['boxes'].tolist()
     return face_comm.trans_string(retData)
 
