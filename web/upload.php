@@ -1,31 +1,30 @@
 <?php
-ini_set('display_errors','on');
 
-$imgBase64=$_POST['img'];
+ini_set('display_errors', 'on');
 
-$arr=array(
-    'code'=>10000,
-    'data'=>array('file_path'=>base64_image_content($imgBase64,'./images/')),
-);
-
-echo json_encode($arr);exit;
-
-function base64_image_content($base64_image_content,$path){
-    //匹配出图片的格式
-    if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $base64_image_content, $result)){
+function save($image_base64, $image_path)
+{
+    if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $image_base64, $result)) {
         $type = $result[2];
-        $new_file = $path."/";
-        if(!file_exists($new_file)){
-            //检查是否有该文件夹，如果没有就创建，并给予最高权限
-            mkdir($new_file, 0700,true);
+        $new_file = $image_path . "/";
+        if (!file_exists($new_file)) {
+            mkdir($new_file, 0700, true);
         }
-        $new_file = $new_file.time().".{$type}";
-        if (file_put_contents($new_file, base64_decode(str_replace($result[1], '', $base64_image_content)))){
+        $new_file = $new_file . time() . ".{$type}";
+        if (file_put_contents($new_file, base64_decode(str_replace($result[1], '', $image_base64)))) {
             return $new_file;
-        }else{
+        } else {
             return false;
         }
-    }else{
+    } else {
         return false;
     }
 }
+
+$arr = array(
+    'code' => 0,
+    'data' => array('image_path' => save($_POST['image_base64'], '/data1/face-login/web/images')),
+);
+
+echo json_encode($arr);
+exit;
