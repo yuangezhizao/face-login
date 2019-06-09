@@ -94,6 +94,7 @@
         </div>
     </div>
 </div>
+<script src="../js/bottomscript.js?v={$version}"></script>
 <script src="../js/main.js?v={$version}"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-83264206-13"></script>
