@@ -371,18 +371,5 @@
                 !o && r.send(n),
                     r
             };
-        var Z = timeago();
-        Z.setLocale({
-            en: "en",
-            zh: "zh_CN"
-        }[pageConfig.lang]),
-            window.timeagoRun = function () {
-                var t = Array.from(document.getElementsByClassName("timeago"));
-                t.forEach(function (t) {
-                    t.hasAttribute("datetime") && (t.textContent = Z.format(t.getAttribute("datetime")))
-                })
-            },
-            setInterval(timeagoRun, 6e4),
-            timeagoRun();
     }
 )();
